@@ -89,10 +89,57 @@ async def route_to_manager_agent(room_result: str, food_result: str) -> RouteRes
 
 
 @function_tool
+async def route_complex_request(full_query: str) -> RouteResponse:
+    """
+    Handles complex requests that involve both room and food services automatically.
+    This function intelligently processes the full request, routing to both room and restaurant agents,
+    then consolidates the results through the manager agent.
+    
+    Use this for ANY request that mentions both accommodation/room AND food/restaurant services,
+    regardless of how complex or intertwined the request might be.
+
+    Args:
+        full_query: The complete user request containing both room and food elements.
+    """
+    try:
+        # Run both agents in parallel with the full query
+        # Each agent will extract what's relevant to them from the full request
+        room_task = asyncio.create_task(Runner.run(room_agent, full_query))
+        food_task = asyncio.create_task(Runner.run(restaurant_agent, full_query))
+        room_result, food_result = await asyncio.gather(room_task, food_task)
+
+        # Consolidate via manager with clear context
+        combined_context = f"""
+درخواست اصلی مشتری: {full_query}
+
+نتایج رزرو اتاق: {str(room_result)}
+
+نتایج سفارش غذا: {str(food_result)}
+
+لطفاً یک فاکتور جامع و حرفه‌ای تهیه کنید که هر دو خدمت را شامل شود."""
+
+        final_result = await Runner.run(manager_agent, combined_context)
+        
+        return RouteResponse(
+            result=str(final_result),
+            agent_used="complex_request_handler",
+            success=True
+        )
+    except Exception as e:
+        return RouteResponse(
+            result=f"خطا در پردازش درخواست پیچیده: {str(e)}",
+            agent_used="complex_request_handler",
+            success=False
+        )
+
+
+@function_tool  
 async def route_room_and_restaurant_and_invoice(room_query: str, food_query: str) -> RouteResponse:
     """
-    Runs room and restaurant agents in parallel, then consolidates via manager agent.
-    This is the most efficient option for combined requests.
+    DEPRECATED: Use route_complex_request instead.
+    This function is kept for backward compatibility but route_complex_request is preferred.
+    
+    Runs room and restaurant agents in parallel with separate queries, then consolidates via manager agent.
 
     Args:
         room_query: Natural language request for room booking.
@@ -110,12 +157,12 @@ async def route_room_and_restaurant_and_invoice(room_query: str, food_query: str
         
         return RouteResponse(
             result=str(final_result),
-            agent_used="parallel_room_restaurant_manager",
+            agent_used="parallel_room_restaurant_manager", 
             success=True
         )
     except Exception as e:
         return RouteResponse(
-            result=f"Error processing parallel request: {str(e)}",
+            result=f"خطا در پردازش درخواست موازی: {str(e)}",
             agent_used="parallel_room_restaurant_manager",
             success=False
         )
@@ -148,18 +195,43 @@ async def custom_tool_use_behavior(
 
 orchestrator_agent = Agent(
     name="Hotel Orchestrator",
-    instructions="""You are the orchestrator for a hotel management system.
-Your job is to analyze the user's request and route it to the appropriate specialized agent or agents.
+    instructions="""شما ارکستراتور هوشمند سیستم مدیریت هتل هستید.
+وظیفه شما تحلیل دقیق درخواست کاربر و هدایت آن به بهترین مسیر پردازش است.
 
-- For room-only requests, use `route_to_room_agent`.
-- For food-only requests, use `route_to_restaurant_agent`.
-- For combined room and food requests, prefer `route_room_and_restaurant_and_invoice` as it runs both agents in parallel for efficiency and then produces a consolidated invoice.
-- Only use `route_to_manager_agent` if you already have separate results from room and restaurant agents.
+💬 **مدیریت مکالمه**: 
+- شما می‌تواید تاریخچه گفتگو دریافت کنید که شامل پیام‌های قبلی کاربر و پاسخ‌های سیستم است
+- در صورت وجود تاریخچه، به آن توجه کنید تا پاسخ‌های مرتبط و مناسب ارائه دهید
+- اگر کاربر به چیزی که قبلاً گفته یا درخواست کرده اشاره می‌کند، از تاریخچه استفاده کنید
+- برای سؤالات تکمیلی یا تغییرات، زمینه قبلی را در نظر بگیرید
 
-Always choose the most efficient routing option based on the user's request.""",
+🎯 راهنمای تصمیم‌گیری:
+
+1️⃣ **درخواست‌های ساده اتاق**: اگر فقط درباره رزرو، بررسی موجودی، یا سؤال درباره اتاق‌ها است
+   ➡️ از `route_to_room_agent` استفاده کنید
+
+2️⃣ **درخواست‌های ساده غذا**: اگر فقط درباره سفارش غذا، منو، یا خدمات رستوران است  
+   ➡️ از `route_to_restaurant_agent` استفاده کنید
+
+3️⃣ **درخواست‌های پیچیده ترکیبی**: اگر درخواست شامل هر دو موضوع اتاق و غذا است
+   ➡️ از `route_complex_request` استفاده کنید (بهترین گزینه!)
+   
+مثال‌های درخواست پیچیده:
+- "یک اتاق دوبل می‌خواهم و برای شام هم پیتزا سفارش دهید"
+- "اتاق سه نفره برای دو شب + ناهار و شام"
+- "رزرو اتاق + سفارش غذا برای مهمانی"
+- هر درخواستی که هم اتاق و هم غذا را ذکر کند
+
+4️⃣ **فقط برای موارد خاص**: `route_to_manager_agent` تنها زمانی که نتایج جداگانه از قبل دارید
+
+🔥 **مهم**: برای درخواست‌های پیچیده، حتماً کل متن درخواست را به `route_complex_request` بدهید، نیازی به تقسیم متن نیست!
+
+📝 **مدیریت follow-up**: اگر کاربر سؤال تکمیلی یا تغییری در درخواست قبلی دارد، کل زمینه (درخواست اصلی + تغییرات جدید) را به agent مربوطه ارسال کنید.
+
+پاسخ‌های نهایی همیشه به زبان فارسی و با لحن حرفه‌ای باشند.""",
     tools=[
         route_to_room_agent,
-        route_to_restaurant_agent,
+        route_to_restaurant_agent, 
+        route_complex_request,
         route_to_manager_agent,
         route_room_and_restaurant_and_invoice,
     ],
