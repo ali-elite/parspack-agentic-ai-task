@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+streamlit
+requests
+langchain
+langgraph
+langchain_openai
+python-dotenv
+typing_extensions
