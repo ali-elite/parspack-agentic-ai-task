@@ -1,69 +1,58 @@
-Multi-Agent Hotel Management System
-This project implements a multi-agent system for managing hotel room and restaurant bookings using LangGraph, FastAPI, and Streamlit.
+# Multi-Agent Hotel Management System
 
-Project Structure
-hotel_management_system/
-├── backend/
-│   ├── app/
-│   │   ├── __init__.py
-│   │   ├── main.py
-│   │   ├── agents.py
-│   │   ├── tools.py
-│   │   ├── models.py
-│   │   └── config.py
-│   └── requirements.txt
-├── frontend/
-│   ├── app.py
-│   └── requirements.txt
-└── README.md
+This project implements a multi-agent system for managing hotel bookings, including room reservations and restaurant orders, using the OpenAI Agents SDK.
 
-Setup and Installation
-1. Create a Virtual Environment
-It's recommended to use a virtual environment. This project is tested with Python 3.12.
+## Project Structure
 
-python3.12 -m venv venv
-source venv/bin/activate
+- `main.py`: The entry point for the application.
+- `agents/`: Contains the definitions for the different agents (Orchestrator, Room, Restaurant, Manager).
+- `tools/`: Implements the tools that agents use to interact with simulated hotel data (e.g., booking rooms, ordering food).
+- `utils/`: Includes helper functions and simulated database initialization.
+- `requirements.txt`: Lists the project dependencies.
+- `.env`: For storing the OpenAI API key.
 
-2. Backend Setup
-Navigate to the backend directory and install the required packages.
+## Setup
 
-cd backend
-pip install -r requirements.txt
+1.  **Clone the repository:**
+    ```bash
+    git clone <repository-url>
+    cd <repository-directory>
+    ```
 
-Create a .env file in the backend/app directory and add your OpenAI API key:
+2.  **Create a virtual environment:**
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+    ```
 
-OPENAI_API_KEY="your_openai_api_key_here"
+3.  **Install dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-3. Frontend Setup
-Navigate to the frontend directory and install the required packages.
+4.  **Set up your environment variables:**
+    Create a `.env` file in the root of the project and add your OpenAI API key:
+    ```
+    OPENAI_API_KEY="your_openai_api_key"
+    ```
 
-cd ../frontend
-pip install -r requirements.txt
+## Running the Application
 
-Running the Application
-1. Start the Backend Server
-In the backend directory, run the FastAPI server using Uvicorn.
+To start the hotel management system, run the `main.py` script:
 
-cd ../backend
-uvicorn app.main:app --reload
+```bash
+python main.py
+```
 
-The backend server will be running at http://127.0.0.1:8000.
+The application will then prompt you for your request. You can use the example queries provided in the task description.
 
-2. Start the Frontend Application
-In a new terminal, navigate to the frontend directory and run the Streamlit app.
+### Example Queries (Persian)
 
-cd ../frontend
-streamlit run app.py
-
-The Streamlit frontend will be available at http://localhost:8501.
-
-How to Use
-Open your browser and navigate to http://localhost:8501.
-
-Enter your request in the text box (in Persian).
-
-Click the "ارسال" (Send) button.
-
-The system will process your request and display the result.
-
-You can use the example prompts in the sidebar to test the system.
+- **Book two different rooms:**
+  `“یک اتاق دو نفره برای سه شب و یک اتاق یک نفره برای یک شب می‌خواستم.”`
+- **Book a room and order a meal:**
+  `“برای فردا شب یک اتاق یک نفره رزرو کنید. برای شام هم یک پیتزا نصف پپرونی و نصف سبزیجات و یک نوشابه می‌خواستم.”`
+- **Order a large meal and reserve a table:**
+  `“۱۰ پرس کباب کوبیده و ۵ پرس جوجه زعفرانی برای ناهار فردا رزرو کنید. همچنین یک میز برای ۵ نفر می‌خواهم.”`
+- **Book a long stay with full board:**
+  `“برای یک هفته اتاق سه نفره نیاز دارم. غذا هم سه وعده در روز می‌خواهم.”`

@@ -1,27 +1,46 @@
 
-import subprocess
-import uvicorn
-from multiprocessing import Process
-import time
+import asyncio
 import os
+from dotenv import load_dotenv
+from agents import Runner
 
-def run_backend():
-    uvicorn.run("src.backend_app:app", host="127.0.0.1", port=8000, reload=False)
+from my_agents.orchestrator_agent import orchestrator_agent
+from utils.db import HOTEL_ROOMS, RESTAURANT_MENU
 
-def run_frontend():
-    subprocess.run(["streamlit", "run", "app.py"])
+
+async def main():
+    """
+    Main function to run the hotel management agent system.
+    """
+    load_dotenv()
+    
+    # Check for OpenAI API key
+    if not os.getenv("OPENAI_API_KEY"):
+        print("Please set the OPENAI_API_KEY environment variable.")
+        return
+
+    print("Welcome to the Multi-Agent Hotel Management System!")
+    print("You can ask to book a room, order from the restaurant, or both.")
+    print("---------------------------------------------------------")
+    print("Initial Room Availability:")
+    for room in HOTEL_ROOMS:
+        print(f"- Room {room['id']} ({room['type']}): {'Available' if room['available'] else 'Booked'}")
+    print("---------------------------------------------------------")
+    print("Initial Menu Availability:")
+    for item in RESTAURANT_MENU:
+        print(f"- {item['name']}: {'Available' if item['available'] else 'Not Available'}")
+    print("---------------------------------------------------------")
+
+    while True:
+        user_query = input("You: ")
+        if user_query.lower() in ["exit", "quit"]:
+            break
+        
+        # Run the orchestrator agent with the user's query
+        result = await Runner.run(orchestrator_agent, user_query)
+        
+        print(f"System: {result}")
+        print("---------------------------------------------------------")
 
 if __name__ == "__main__":
-    p_backend = Process(target=run_backend)
-    p_frontend = Process(target=run_frontend)
-    
-    p_backend.start()
-    print("Backend started...")
-    
-    time.sleep(5)
-    
-    p_frontend.start()
-    print("Frontend started...")
-    
-    p_backend.join()
-    p_frontend.join()
+    asyncio.run(main())
