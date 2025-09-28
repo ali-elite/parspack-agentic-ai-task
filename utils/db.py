@@ -5,25 +5,25 @@ def initialize_rooms():
     """Initializes a simulated database of hotel rooms with proper room numbers and random availability."""
     room_configs = [
         # Single rooms (100-104)
-        {"number": 101, "type": "single", "price": 100, "floor": 1},
-        {"number": 102, "type": "single", "price": 100, "floor": 1},
-        {"number": 103, "type": "single", "price": 100, "floor": 1},
-        {"number": 201, "type": "single", "price": 100, "floor": 2},
-        {"number": 202, "type": "single", "price": 100, "floor": 2},
+        {"number": 101, "type": "single", "price": 5000000, "floor": 1},  # 100$ = 5,000,000 Tomans
+        {"number": 102, "type": "single", "price": 5000000, "floor": 1},
+        {"number": 103, "type": "single", "price": 5000000, "floor": 1},
+        {"number": 201, "type": "single", "price": 5000000, "floor": 2},
+        {"number": 202, "type": "single", "price": 5000000, "floor": 2},
         
         # Double rooms (200-300 series)
-        {"number": 203, "type": "double", "price": 150, "floor": 2},
-        {"number": 204, "type": "double", "price": 150, "floor": 2},
-        {"number": 205, "type": "double", "price": 150, "floor": 2},
-        {"number": 301, "type": "double", "price": 150, "floor": 3},
-        {"number": 302, "type": "double", "price": 150, "floor": 3},
+        {"number": 203, "type": "double", "price": 7500000, "floor": 2},  # 150$ = 7,500,000 Tomans
+        {"number": 204, "type": "double", "price": 7500000, "floor": 2},
+        {"number": 205, "type": "double", "price": 7500000, "floor": 2},
+        {"number": 301, "type": "double", "price": 7500000, "floor": 3},
+        {"number": 302, "type": "double", "price": 7500000, "floor": 3},
         
         # Triple rooms (300+ series)
-        {"number": 303, "type": "triple", "price": 200, "floor": 3},
-        {"number": 304, "type": "triple", "price": 200, "floor": 3},
-        {"number": 305, "type": "triple", "price": 200, "floor": 3},
-        {"number": 401, "type": "triple", "price": 200, "floor": 4},
-        {"number": 402, "type": "triple", "price": 200, "floor": 4},
+        {"number": 303, "type": "triple", "price": 10000000, "floor": 3},  # 200$ = 10,000,000 Tomans
+        {"number": 304, "type": "triple", "price": 10000000, "floor": 3},
+        {"number": 305, "type": "triple", "price": 10000000, "floor": 3},
+        {"number": 401, "type": "triple", "price": 10000000, "floor": 4},
+        {"number": 402, "type": "triple", "price": 10000000, "floor": 4},
     ]
     
     rooms = []
@@ -42,7 +42,7 @@ def initialize_menu():
     menu_items = [
         {
             "name": "Pepperoni Pizza", 
-            "price": 15, 
+            "price": 750000,  # 15$ = 750,000 Tomans
             "base_quantity": 20,
             "category": "pizza",
             "meal_types": ["lunch", "dinner"],
@@ -55,27 +55,27 @@ def initialize_menu():
             },
             "customization_options": {
                 "sizes": {
-                    "small": {"price_modifier": -2, "name": "Small"},
+                    "small": {"price_modifier": -100000, "name": "Small"},  # -2$ = -100,000 Tomans
                     "medium": {"price_modifier": 0, "name": "Medium"},  # base price
-                    "large": {"price_modifier": 3, "name": "Large"}
+                    "large": {"price_modifier": 150000, "name": "Large"}  # 3$ = 150,000 Tomans
                 },
                 "half_toppings": {
                     "pepperoni": {"price_modifier": 0, "name": "Pepperoni"},
-                    "vegetable": {"price_modifier": -1, "name": "Vegetables"},
-                    "cheese": {"price_modifier": -2, "name": "Extra Cheese"},
-                    "mushroom": {"price_modifier": 1, "name": "Mushroom"},
-                    "sausage": {"price_modifier": 2, "name": "Italian Sausage"}
+                    "vegetable": {"price_modifier": -50000, "name": "Vegetables"},  # -1$ = -50,000 Tomans
+                    "cheese": {"price_modifier": -100000, "name": "Extra Cheese"},  # -2$ = -100,000 Tomans
+                    "mushroom": {"price_modifier": 50000, "name": "Mushroom"},  # 1$ = 50,000 Tomans
+                    "sausage": {"price_modifier": 100000, "name": "Italian Sausage"}  # 2$ = 100,000 Tomans
                 },
                 "extras": {
-                    "extra_cheese": {"price_modifier": 2, "name": "Extra Cheese"},
-                    "gluten_free": {"price_modifier": 3, "name": "Gluten Free Base"},
-                    "thin_crust": {"price_modifier": 1, "name": "Thin Crust"}
+                    "extra_cheese": {"price_modifier": 100000, "name": "Extra Cheese"},  # 2$ = 100,000 Tomans
+                    "gluten_free": {"price_modifier": 150000, "name": "Gluten Free Base"},  # 3$ = 150,000 Tomans
+                    "thin_crust": {"price_modifier": 50000, "name": "Thin Crust"}  # 1$ = 50,000 Tomans
                 }
             }
         },
         {
             "name": "Vegetable Pizza", 
-            "price": 12, 
+            "price": 600000,  # 12$ = 600,000 Tomans
             "base_quantity": 15,
             "category": "pizza",
             "meal_types": ["lunch", "dinner"],
@@ -88,9 +88,9 @@ def initialize_menu():
             },
             "customization_options": {
                 "sizes": {
-                    "small": {"price_modifier": -2, "name": "Small"},
+                    "small": {"price_modifier": -100000, "name": "Small"},  # -2$ = -100,000 Tomans
                     "medium": {"price_modifier": 0, "name": "Medium"},
-                    "large": {"price_modifier": 3, "name": "Large"}
+                    "large": {"price_modifier": 150000, "name": "Large"}  # 3$ = 150,000 Tomans
                 },
                 "half_toppings": {
                     "vegetable": {"price_modifier": 0, "name": "Mixed Vegetables"},
@@ -108,7 +108,7 @@ def initialize_menu():
         },
         {
             "name": "Cheeseburger", 
-            "price": 10, 
+            "price": 500000,  # 10$ = 500,000 Tomans
             "base_quantity": 25,
             "category": "burger",
             "meal_types": ["breakfast", "lunch", "dinner"],
@@ -140,7 +140,7 @@ def initialize_menu():
         },
         {
             "name": "Caesar Salad", 
-            "price": 8, 
+            "price": 400000,  # 8$ = 400,000 Tomans
             "base_quantity": 30,
             "category": "salad",
             "meal_types": ["breakfast", "lunch", "dinner"],
@@ -166,7 +166,7 @@ def initialize_menu():
         },
         {
             "name": "Soft Drink", 
-            "price": 2, 
+            "price": 100000,  # 2$ = 100,000 Tomans
             "base_quantity": 50,
             "category": "beverage",
             "meal_types": ["breakfast", "lunch", "dinner"],
@@ -205,7 +205,7 @@ def initialize_menu():
         },
         {
             "name": "Fresh Juice",
-            "price": 4,
+            "price": 200000,  # 4$ = 200,000 Tomans
             "base_quantity": 25,
             "category": "beverage",
             "meal_types": ["breakfast", "lunch", "dinner"],
@@ -243,7 +243,7 @@ def initialize_menu():
         },
         {
             "name": "Coffee",
-            "price": 3,
+            "price": 150000,  # 3$ = 150,000 Tomans
             "base_quantity": 40,
             "category": "hot_beverage",
             "meal_types": ["breakfast", "lunch", "dinner"],
@@ -291,7 +291,7 @@ def initialize_menu():
         },
         {
             "name": "Tea",
-            "price": 2.5,
+            "price": 125000,  # 2.5$ = 125,000 Tomans
             "base_quantity": 35,
             "category": "hot_beverage",
             "meal_types": ["breakfast", "lunch", "dinner"],
@@ -331,7 +331,7 @@ def initialize_menu():
         },
         {
             "name": "Smoothie",
-            "price": 6,
+            "price": 300000,  # 6$ = 300,000 Tomans
             "base_quantity": 20,
             "category": "beverage",
             "meal_types": ["breakfast", "lunch"],
@@ -371,11 +371,11 @@ def initialize_menu():
         },
         {
             "name": "Persian Kabob Koobideh", 
-            "price": 25, 
+            "price": 1250000,  # 25$ = 1,250,000 Tomans
             "base_quantity": 12,
             "category": "persian",
             "meal_types": ["lunch", "dinner"],
-            "available_days": ["tuesday", "thursday", "friday", "saturday", "sunday"],
+            "available_days": ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],  # Available every day
             "customizable": True,
             "defaults": {
                 "spice_level": "medium",
@@ -385,24 +385,24 @@ def initialize_menu():
                 "spice_level": {
                     "mild": {"price_modifier": 0, "name": "Mild"},
                     "medium": {"price_modifier": 0, "name": "Medium Spicy"},
-                    "hot": {"price_modifier": 1, "name": "Hot"},
-                    "extra_hot": {"price_modifier": 2, "name": "Extra Hot"}
+                    "hot": {"price_modifier": 50000, "name": "Hot"},  # 1$ = 50,000 Tomans
+                    "extra_hot": {"price_modifier": 100000, "name": "Extra Hot"}  # 2$ = 100,000 Tomans
                 },
                 "sides": {
-                    "rice": {"price_modifier": 3, "name": "Saffron Rice"},
-                    "bread": {"price_modifier": 2, "name": "Persian Bread"},
-                    "salad": {"price_modifier": 4, "name": "Shirazi Salad"},
-                    "yogurt": {"price_modifier": 3, "name": "Persian Yogurt"}
+                    "rice": {"price_modifier": 150000, "name": "Saffron Rice"},  # 3$ = 150,000 Tomans
+                    "bread": {"price_modifier": 100000, "name": "Persian Bread"},  # 2$ = 100,000 Tomans
+                    "salad": {"price_modifier": 200000, "name": "Shirazi Salad"},  # 4$ = 200,000 Tomans
+                    "yogurt": {"price_modifier": 150000, "name": "Persian Yogurt"}  # 3$ = 150,000 Tomans
                 }
             }
         },
         {
             "name": "Saffron Joojeh Kabab", 
-            "price": 22, 
+            "price": 1100000,  # 22$ = 1,100,000 Tomans
             "base_quantity": 18,
             "category": "persian",
             "meal_types": ["lunch", "dinner"],
-            "available_days": ["monday", "wednesday", "friday", "saturday", "sunday"],
+            "available_days": ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],  # Available every day
             "customizable": True,
             "defaults": {
                 "marinade": "saffron",
@@ -411,13 +411,13 @@ def initialize_menu():
             "customization_options": {
                 "marinade": {
                     "saffron": {"price_modifier": 0, "name": "Traditional Saffron"},
-                    "herb": {"price_modifier": 1, "name": "Herb Marinade"},
-                    "spicy": {"price_modifier": 1, "name": "Spicy Marinade"}
+                    "herb": {"price_modifier": 50000, "name": "Herb Marinade"},  # 1$ = 50,000 Tomans
+                    "spicy": {"price_modifier": 50000, "name": "Spicy Marinade"}  # 1$ = 50,000 Tomans
                 },
                 "sides": {
-                    "rice": {"price_modifier": 3, "name": "Saffron Rice"},
-                    "grilled_tomato": {"price_modifier": 2, "name": "Grilled Tomato"},
-                    "salad": {"price_modifier": 4, "name": "Shirazi Salad"}
+                    "rice": {"price_modifier": 150000, "name": "Saffron Rice"},  # 3$ = 150,000 Tomans
+                    "grilled_tomato": {"price_modifier": 100000, "name": "Grilled Tomato"},  # 2$ = 100,000 Tomans
+                    "salad": {"price_modifier": 200000, "name": "Shirazi Salad"}  # 4$ = 200,000 Tomans
                 }
             }
         }

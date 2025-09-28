@@ -246,9 +246,6 @@ with st.sidebar:
     st.subheader("اطلاعات برنامه غذایی")
     st.info("غذاهای فارسی در روزهای خاص هفته موجودند")
     
-    if st.button("مشاهده برنامه کامل هفته"):
-        # This would trigger showing full weekly schedule
-        st.session_state["show_full_schedule"] = True
     
     # Show quick weekly overview
     if show_weekly_program:
@@ -317,7 +314,7 @@ with col2:
                 <span class="status-indicator {indicator_class}"></span>
                 <span class="room-number">اتاق {room['number']}</span>
                 <br>
-                <small>طبقه {room['floor']} • {room_type_fa} • {room['price_per_night']}$ • {status_text}</small>
+                <small>طبقه {room['floor']} • {room_type_fa} • {room['price_per_night']:,} تومان • {status_text}</small>
             </div>
             """
         
@@ -364,7 +361,7 @@ with col2:
                 <span class="status-indicator {indicator_class}"></span>
                 <strong>{item['name']}</strong>
                 <br>
-                <small>{item['price']}$ • {status_text}{customizable_text}</small>
+                <small>{item['price']:,} تومان • {status_text}{customizable_text}</small>
             </div>
             """
         

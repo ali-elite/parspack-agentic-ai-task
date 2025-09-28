@@ -170,7 +170,7 @@ def check_food_availability_by_date(food_item: str, date: str, meal_type: str) -
         target_date = datetime.strptime(date, "%Y-%m-%d")
         day_name = target_date.strftime("%A").lower()
         
-        # Find the menu item
+        # Find the menu item by exact name match
         menu_item = next((item for item in RESTAURANT_MENU if item['name'].lower() == food_item.lower()), None)
         
         if not menu_item:
